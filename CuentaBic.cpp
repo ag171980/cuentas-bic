@@ -265,3 +265,41 @@ rename("copia.dat","Cuentas.BIC");
 
 
 }
+
+
+void CargarMovimiento(){
+FILE* mov;
+mov=fopen("procesados.BIC","ab");
+Movimiento m;
+cout<<"Ingrese el numero de movimiento:"<<endl;
+cin>>m.MovimientoID;
+cout<<"Ingrese la Fecha y Hora : (AAAAMMDDHH:MM)"<<endl;
+cin>>m.FechaHora;
+cout<<"Ingrese el monto:"<<endl;
+cin>>m.Monto;
+cout<<"Ingrese el numero de cuenta:"<<endl;
+cin>>m.CuentaID;
+
+fwrite(&m,sizeof(Movimiento),1,mov);
+fclose(mov);
+}
+
+
+void LeerMovimientos(){
+FILE* mov;
+mov=fopen("procesados.BIC","rb");
+Movimiento m;
+ while(fread(&m,sizeof(Movimiento),1,mov)){
+cout<<"-------------------------------"<<endl;
+cout<<"El ID del movimiento es:"<<endl;
+cout<<m.MovimientoID<<endl;
+cout<<"La fecha y hora es:"<<endl;
+cout<<m.FechaHora<<endl;
+cout<<"El monto es:"<<endl;
+cout<<m.Monto<<endl;
+cout<<"El ID de la cuenta es:"<<endl;
+cout<<m.CuentaID<<endl;
+cout<<"-------------------------------"<<endl;
+}
+fclose(mov);
+}
