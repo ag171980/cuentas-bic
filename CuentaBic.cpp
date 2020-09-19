@@ -51,7 +51,7 @@ void Menu(int opcion){
 	cout<<"Opcion 6: Ingresar un movimiento"<<endl;
 	cout<<"Opcion 7: Muestra los movimientos ingresados"<<endl;
 	cout<<"Opcion 8: Actualizacion de las cuentas"<<endl;
-	//cout<<" 6 - Salir y guardar cambios "<< endl;
+    cout<<"Opcion 9: Para del programa"<<endl;
     cout<<endl;
     cout<<" Elija una opcion: "<< endl;
 	cin >>opcion;
@@ -449,3 +449,9 @@ remove("Cuentas.BIC");
 rename("copia.dat","Cuentas.BIC");
 
 }
+
+
+
+
+
+
