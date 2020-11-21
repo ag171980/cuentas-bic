@@ -23,14 +23,14 @@ struct Movimiento {
 void Menu(int opcion);
 void LeerTarjetas();
 void AgregarTarjetas();
-void EliminarUsuario();
-void BuscarUsuario();
+void EliminarUsuario(int eliminar);
+void BuscarUsuario(int buscar);
 void ListadoTarjetasAct();
-void CargarMovimiento();
-void LeerMovimientos();
+void CargarMovimiento(FILE* mov);
+void LeerMovimientos(FILE* mov);
 int cantidad();
 int CantidadMov();
-void Actualizacion();
+void Actualizacion(FILE* sol);
 void SoloActivos();
 void pruebas();
 
@@ -41,6 +41,8 @@ int  main () {
 	}
 
 void Menu(int opcion){
+   FILE *mov;
+   FILE* sol;
 
     cout<<"Menu"<<endl;
 	cout<<"----------------------------------------------"<<endl;
@@ -69,11 +71,18 @@ void Menu(int opcion){
 			Menu(opcion);
 			break;
 		case 3:
-			EliminarUsuario();
+        int eliminar;
+	    cout<<"Ingrese en numero de cuenta que desea eliminar"<<endl;
+	    cin>>eliminar;
+
+			EliminarUsuario(eliminar);
 			Menu(opcion);
 			break;
 		case 4:
-		   BuscarUsuario();
+        int buscar;
+        cout<<"Ingrese el id de la cuenta a buscar:"<<endl;
+        cin>>buscar;
+		   BuscarUsuario(buscar);
            Menu(opcion);
 			break;
 		case 5:
@@ -81,15 +90,15 @@ void Menu(int opcion){
 		    Menu(opcion);
 			break;
 		case 6:
-        	CargarMovimiento();
+        	CargarMovimiento(mov);
         	Menu(opcion);
 			break;
         case 7:
-         LeerMovimientos();
+         LeerMovimientos(mov);
             Menu(opcion);
             break;
         case 8:
-            Actualizacion();
+            Actualizacion(sol);
             Menu(opcion);
             break;
         case 9:
@@ -176,7 +185,7 @@ int cantidad(){
 	return cant;
 }
 
-void EliminarUsuario(){
+void EliminarUsuario(int eliminar){
 	FILE*archivo;
 	archivo=fopen("Cuentas.BIC","rb");
 	Tarjeta t;
@@ -197,10 +206,6 @@ void EliminarUsuario(){
 	FILE* otro;
 	otro=fopen("otro.dat","ab");
 	Tarjeta k;
-	int eliminar;
-
-	cout<<"Ingrese en numero de cuenta que desea eliminar"<<endl;
-	cin>>eliminar;
 
   	for(int l=0;l<cantidad();l++){
         if(arr[l].CuentaID!=eliminar){
@@ -220,14 +225,11 @@ void EliminarUsuario(){
     rename("otro.dat","Cuentas.BIC");
 }
 
-void BuscarUsuario(){
+void BuscarUsuario(int buscar){
 	FILE*archivo;
 	archivo = fopen("Cuentas.BIC","rb");
 	Tarjeta t;
-	int buscar;
 	bool existe=false;
-	cout<<"Ingrese el id de la cuenta a buscar:"<<endl;
-	cin>>buscar;
 	while(fread(&t,sizeof(Tarjeta),1,archivo)){
 		if(t.CuentaID==buscar){
             cout << "****** Datos de la cuenta *******" << endl;
@@ -308,8 +310,7 @@ void ListadoTarjetasAct(){
     delete[] array;
 }
 
-void CargarMovimiento(){
-	FILE* mov;
+void CargarMovimiento(FILE*mov){
 	FILE* sol;
 	sol=fopen("sol.dat","ab"),
 	mov=fopen("procesados.BIC","ab");
@@ -336,8 +337,8 @@ void CargarMovimiento(){
 	fclose(sol);
 }
 
-void LeerMovimientos(){
-	FILE* mov;
+void LeerMovimientos(FILE* mov){
+
 
 	mov=fopen("procesados.BIC","rb");
 	Movimiento m;
@@ -368,10 +369,10 @@ int CantidadMov(){
 }
 
 
-void Actualizacion(){
+void Actualizacion(FILE* sol){
 //cp[CantidadMov()] posee la cantidad de movimientos que hayan en el archivo procesados.BIC
 
-	FILE* sol;
+
 	sol=fopen("sol.dat","rb");
 
 	Movimiento s;
@@ -484,8 +485,3 @@ void SoloActivos(){
 	remove("Cuentas.BIC");
 	rename("copia.dat","Cuentas.BIC");
 }
-
-
-
-
-
